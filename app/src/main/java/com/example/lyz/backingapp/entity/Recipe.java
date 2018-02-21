@@ -24,6 +24,10 @@ public class Recipe implements Parcelable{
     }
 
     protected Recipe(Parcel in) {
+        id=in.readInt();
+        servings=in.readInt();
+        name=in.readString();
+        image=in.readString();
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {

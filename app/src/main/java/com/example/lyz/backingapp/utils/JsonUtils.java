@@ -9,8 +9,6 @@ import com.example.lyz.backingapp.entity.Step;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -37,15 +35,11 @@ public class JsonUtils {
     private static final String VIDEOURL="videoURL";
     private static final String THUMBNAIL="thumbnailURL";
 
-    public Recipe[] getRecipesFromResource(){
+    public static Recipe[] getRecipesFromResource(String response){
         Recipe[] recipes=null;
         try {
-            String response = NetworkUtils.getNetworkResponse();
             JSONArray totalResult= new JSONArray(response);
             recipes= parseJsonArrayToRecipes(totalResult);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.d(TAG,"Unable to receive recipe");
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d(TAG, "Failed to create objects from response");
@@ -53,7 +47,7 @@ public class JsonUtils {
         return recipes;
     }
 
-    private Recipe[] parseJsonArrayToRecipes(JSONArray totalResult) throws JSONException {
+    private static Recipe[] parseJsonArrayToRecipes(JSONArray totalResult) throws JSONException {
         Recipe[]recipes = null;
         if (totalResult!=null&&totalResult.length()>0){
             recipes = new Recipe[totalResult.length()];
@@ -75,10 +69,11 @@ public class JsonUtils {
                         step.setDescription(jsonStep.getString(STEPDESCRIPTION));
                         step.setThumbNailUrl(jsonStep.getString(THUMBNAIL));
                         step.setVideoURL(jsonStep.getString(VIDEOURL));
+                        step.setRecipeId(recipes[i].getId());
                         steps.add(step);
                     }
                 }
-                //TODO add steps to recipe
+                recipes[i].setSteps(steps);
                 ArrayList<Ingredient>recipeIngredients=new ArrayList<>();
                 JSONArray ingredientsList= tempJsonRecipe.getJSONArray(RECIPEINGREDIENTS);
                 if (ingredientsList.length()>0){
@@ -88,10 +83,11 @@ public class JsonUtils {
                         ingredient.setQuantity(jsonIngredient.getInt(INGREDIENTQUANTITY));
                         ingredient.setIngredient(jsonIngredient.getString(INGREDIENT));
                         ingredient.setMeasure(jsonIngredient.getString(INGREDIENTMEASURE));
+                        ingredient.setRecipeId(recipes[i].getId());
                         recipeIngredients.add(ingredient);
                     }
                 }
-                //TODO add ingredients to recipe
+                recipes[i].setIngredientList(recipeIngredients);
             }
         }
         return recipes;

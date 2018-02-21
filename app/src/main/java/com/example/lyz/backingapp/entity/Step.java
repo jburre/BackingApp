@@ -1,16 +1,43 @@
 package com.example.lyz.backingapp.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Lyz on 06.02.2018.
  */
 
-public class Step {
+public class Step implements Parcelable{
     private int id;
     private String shortDescription;
     private String description;
     private String videoURL;
     private String thumbNailUrl;
+    private int recipeId;
 
+    public Step(){
+        super();
+    }
+
+    protected Step(Parcel in) {
+        id = in.readInt();
+        shortDescription = in.readString();
+        description = in.readString();
+        videoURL = in.readString();
+        thumbNailUrl = in.readString();
+    }
+
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
+        @Override
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
+        }
+
+        @Override
+        public Step[] newArray(int size) {
+            return new Step[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -52,4 +79,25 @@ public class Step {
         this.thumbNailUrl = thumbNailUrl;
     }
 
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(shortDescription);
+        parcel.writeString(description);
+        parcel.writeString(videoURL);
+        parcel.writeString(thumbNailUrl);
+    }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BackingApp</string>
+    <string name="noWiFi">You do not seem to have a stable connection. Come back again later.</string>
 </resources>
