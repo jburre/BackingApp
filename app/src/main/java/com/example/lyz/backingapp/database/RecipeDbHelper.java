@@ -15,9 +15,6 @@ public class RecipeDbHelper extends SQLiteOpenHelper{
     private static final String TABLE_RECIPE="recipes";
     private static final String TABLE_STEPS="steps";
     private static final String TABLE_INGREDIENTS="ingredients";
-    private static final String CREATE_TABLE_RECIPES="CREATE TABLE "+ RecipeContract.RecipeEntry.TABLE_NAME_RECIPES+" ("+
-            RecipeContract.RecipeEntry._ID+" INTEGER PRIMARY KEY, "+
-            RecipeContract.RecipeEntry.
     private static final int VERSION=1;
 
     public RecipeDbHelper(Context context){
@@ -31,7 +28,7 @@ public class RecipeDbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+RecipeContract.RecipeEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+RecipeContract.RecipeEntry.TABLE_NAME_RECIPES);
         onCreate(sqLiteDatabase);
     }
 }

@@ -31,10 +31,14 @@ public class MainActivity extends AppCompatActivity implements BasicRecipeAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        basicRecipeAdapter=new BasicRecipeAdapter(this);
         recyclerView=findViewById(R.id.recyclerview_recipes_overview);
+        recyclerView.setHasFixedSize(true);
+        gridLayoutManager=new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(basicRecipeAdapter);
         progressBar=findViewById(R.id.pg_main);
         errorView=findViewById(R.id.main_error_image);
-        basicRecipeAdapter=new BasicRecipeAdapter(this);
         if (savedInstanceState!=null){
             //TODO
         } else {
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements BasicRecipeAdapte
         @Override
         public void onTaskComplete(Recipe[] recipes) {
             endLoadingAndShowRecipes();
+            basicRecipeAdapter.setRecipes(recipes);
         }
     }
 

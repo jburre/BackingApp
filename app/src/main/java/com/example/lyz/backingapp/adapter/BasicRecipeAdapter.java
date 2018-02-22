@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.lyz.backingapp.R;
 import com.example.lyz.backingapp.entity.Recipe;
 
 /**
@@ -29,18 +31,25 @@ public class BasicRecipeAdapter extends RecyclerView.Adapter<BasicRecipeAdapter.
         this.context= parent.getContext();
         LayoutInflater inflater =LayoutInflater.from(context);
         boolean shouldAttachToParentImmediatly=false;
-        //TODO a lot
-        return null;
+        int layoutIdForRecipe= R.layout.recipeoverview;
+        View view = inflater.inflate(layoutIdForRecipe,parent, shouldAttachToParentImmediatly);
+        return new BasicRecipeAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(BasicRecipeAdapter.BasicRecipeAdapterViewHolder holder, int position) {
-
+        int recipeNumber=position+1;
+        String recipedescription = "Recipe "+recipeNumber;
+        TextView textView = holder.recipeView;
+        textView.setText(recipedescription);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (recipes==null){
+            return 0;
+        }
+        return recipes.length;
     }
 
     public interface RecipeAdapterOnClickHandler{
@@ -49,8 +58,11 @@ public class BasicRecipeAdapter extends RecyclerView.Adapter<BasicRecipeAdapter.
 
     public class BasicRecipeAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        public final TextView recipeView;
+
         public BasicRecipeAdapterViewHolder(View itemView) {
             super(itemView);
+            recipeView=itemView.findViewById(R.id.main_recipe_text);
             itemView.setOnClickListener(this);
         }
 

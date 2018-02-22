@@ -44,4 +44,10 @@ public class FetchRecipesTask extends AsyncTask<Void,Void,Recipe[]>{
         }
         return recipes;
     }
+
+    @Override
+    protected void onPostExecute(Recipe[] recipes) {
+        super.onPostExecute(recipes);
+        listener.onTaskComplete(recipes);
+    }
 }
